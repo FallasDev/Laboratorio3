@@ -5,13 +5,13 @@ var builder = WebApplication.CreateBuilder(args);
 // 1️⃣ Agregar la política de CORS
 builder.Services.AddCors(options =>
 {
-    options.AddPolicy("PermitirFrontend", policy =>
-    {
-        policy
-            .WithOrigins("http://127.0.0.1:5500")
-            .AllowAnyHeader()
-            .AllowAnyMethod();
-    });
+    options.AddPolicy("VercelFrontend",
+        policy =>
+        {
+            policy.WithOrigins("https://laboratorio3-cliente.vercel.app") // Dominio principal
+                  .AllowAnyHeader()
+                  .AllowAnyMethod();
+        });
 });
 
 builder.Services.Configure<Microsoft.AspNetCore.Mvc.ApiBehaviorOptions>(options =>
@@ -39,7 +39,7 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
-app.UseCors("PermitirFrontend");
+app.UseCors("VercelFrontend");
 app.UseAuthorization();
 app.UseDeveloperExceptionPage(); // si estás en modo desarrollo
 app.MapControllers();
